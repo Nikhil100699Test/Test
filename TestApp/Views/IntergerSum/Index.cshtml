@@ -1,0 +1,60 @@
+﻿@model TestApp.Models.IntegerSum
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<h4>IntegerSum</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="FirstNumber" class="control-label"></label>
+            <input asp-for="FirstNumber" class="form-control" id="frstnum" />
+            <span asp-validation-for="FirstNumber" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="SecondNumber" class="control-label"></label>
+            <input asp-for="SecondNumber" class="form-control" id="secnum" />
+            <span asp-validation-for="SecondNumber" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Create" class="btn btn-primary" id="submitbtn" />
+        </div>
+        <div id="container">
+        </div>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script>
+        $("#submitbtn").click(function () {
+            var firstnum = $("#frstnum").val();
+            var secondnum = $("#secnum").val();
+            var inputData = {
+                firstnum: firstnum,
+                secondnum: secondnum
+            }
+            $.ajax({
+                url: "IntergerSum/Index?firstnum=" + firstnum + "&secondnum=" + secondnum + "",
+                type: "POST",
+                contentType: "application/json",
+                success: function (result) {
+                    $("#container").html(" <label asp-for='ResultedNumber' class='control - label'><h3>Resulted Value" + result + "</h3></label>")
+                }
+            })
+        })
+    </script>
+}
